@@ -9,7 +9,9 @@
   by typing "sqlite3" in command line.
   
 (4) in command line ".open databse.db"
-  then ".read triggers.sql" in command line with sqlite3 running.
+  then ".read trigger.sql" in command line with sqlite3 running.
+  
+(5) Switch on the foreign key constraint: PRAGMA foreign_keys = ON;
 
 
 
