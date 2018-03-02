@@ -38,7 +38,6 @@ void print_countresult(sqlite3_stmt *stmt){
 		int col;
 		for(col=0; col<sqlite3_column_count(stmt)-1; col++) {
 			printf("\nCount: %s|", sqlite3_column_text(stmt, col));
-
 		}
 		printf("\nCount: %s", sqlite3_column_text(stmt, col));
 		printf("\n");
@@ -59,20 +58,6 @@ void print_result(sqlite3_stmt *stmt){
 	}
 }
 
-void print_noderesult(sqlite3_stmt *stmt){
-	int rc;
-
-	while((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
-		int col;
-		for(col=0; col<sqlite3_column_count(stmt)-1; col++) {
-			printf("NodeID: %s|", sqlite3_column_text(stmt, col));
-
-		}
-		printf("NodeID: %s", sqlite3_column_text(stmt, col));
-		printf("\n");
-	}
-}
-
 int main (int argc, char *argv[]) {
 
   int i, j, m, n;
@@ -81,10 +66,6 @@ int main (int argc, char *argv[]) {
   sqlite3_stmt *stmt;
 
   char newString[50][50];
-  //char * result;
-  //int int_result;
-  //char *idresult;
-
   for (i=1; i<argc; i++) {
     if (i==1) {
       rc = sqlite3_open(argv[i], &db);
@@ -114,7 +95,7 @@ int main (int argc, char *argv[]) {
     fprintf(stderr, "\nKey:   %s", newString[0]);
     fprintf(stderr, "\nValue: %s", newString[1]);
 
-    char *first_qry = "SELECT COUNT(*) FROM nodetag WHERE k = ? AND v = ?;";
+    char *first_qry = "SELECT COUNT(*) FROM waytag WHERE k = ? AND v = ?;";
     rc = sqlite3_prepare_v2(db, first_qry, -1, &stmt, 0);
 
     sqlite3_bind_text(stmt, 1, newString[0], strlen(newString[0]), 0);
@@ -128,34 +109,24 @@ int main (int argc, char *argv[]) {
 
     print_countresult(stmt);
 
-  //   result = (char *)malloc(100) ;
-  //   do {
-  //           rc = sqlite3_step (stmt) ;
-  //           if (rc == SQLITE_ROW) {
-  //                    strcpy(result, (char *)sqlite3_column_text(stmt,0)) ;
-  //           }
-   //
-  //  } while (rc == SQLITE_ROW) ;
-   //
-  //  int_result = atoi(result);
-   //
-  //   if (int_result > 0) {
-  //     fprintf(stdout, "\nkey:    %s\ntag:    %s\ncount:  %d\n", newString[0], newString[1], int_result) ;
-  //   }
-
-  // char *second_qry = "WITH all_nodes (myid, mylat, mylon) AS
-  //                     (SELECT t.id, n.lat, n.lon FROM nodetag t JOIN node n ON t.id = n.id
-  //                       WHERE t.k = 'place' AND t.v = 'city')
-  //                       SELECT n1.myid, n1.mylat, n1.mylon, n2.myid, n2.mylat, n2.mylon
-  //                       FROM all_nodes n1, all_nodes n2 WHERE n1.myid != n2.myid;";
-
   sqlite3_create_function(db, "dist", 6, SQLITE_UTF8, NULL, &dist, NULL, NULL);
 
-  char *second_qry = "WITH all_nodes (myid, mylat, mylon) AS\
-                      (SELECT t.id, n.lat, n.lon FROM nodetag t JOIN node n ON t.id = n.id\
-                        WHERE t.k = ? AND t.v = ?)\
-                        SELECT MAX(dist(n1.myid, n1.mylat, n1.mylon, n2.myid, n2.mylat, n2.mylon))\
-                        FROM all_nodes n1, all_nodes n2 WHERE n1.myid != n2.myid;";
+  char *second_qry = "WITH id_table(id_t) AS(\
+	   SELECT id \
+	    FROM waytag\
+	     WHERE k = ?\
+	      AND v = ?),\
+        node_pair(n1, n2) AS ( \
+	         SELECT wp1.nodeid, wp2.nodeid \
+	          FROM waypoint wp1, waypoint wp2 , id_table idt\
+	           WHERE wp1.wayid = wp2.wayid \
+	            AND wp1.wayid = idt.id_t \
+	             AND wp1.ordinal + 1 = wp2.ordinal)\
+               SELECT MAX(amountsum) FROM (SELECT SUM(dist(one.id, one.lat, one.lon, two.id, two.lat, two.lon)) AS amountsum\
+               FROM node one, node two, node_pair np1, node_pair np2\
+               WHERE one.id = np1.n1\
+               AND two.id = np2.n2\
+               AND np1.n1 = np2.n1);";
 
   rc = sqlite3_prepare_v2(db, second_qry, -1, &stmt, 0);
   sqlite3_bind_text(stmt, 1, newString[0], strlen(newString[0]), 0);
@@ -166,25 +137,9 @@ int main (int argc, char *argv[]) {
     sqlite3_close(db) ;
     return 2;
   }
-
   print_result(stmt);
-
-
-  //  char *second_qry = "SELECT id FROM nodetag WHERE k = ? AND v = ?;";
-  //  rc = sqlite3_prepare_v2(db, second_qry, -1, &stmt, 0);
-  //  sqlite3_bind_text(stmt, 1, newString[0], strlen(newString[0]), 0);
-  //  sqlite3_bind_text(stmt, 2, newString[1], strlen(newString[1]), 0);
-   //
-  //  if (rc != SQLITE_OK) {
-  //    printf("Failed to prepare database %s\n\r",sqlite3_errstr(rc)) ;
-  //    sqlite3_close(db) ;
-  //    return 2;
-  //  }
-   //
-  //  print_noderesult(stmt);
   }
-
-  sqlite3_close(db) ;
   sqlite3_finalize(stmt); //always finalize a statement
+  sqlite3_close(db);
   return 0;
   }
