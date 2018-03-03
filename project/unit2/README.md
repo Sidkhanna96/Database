@@ -1,8 +1,9 @@
 Done by collaboration by Hee Soo Park and Sid Siddhant Khanna.
+Due March 3, 2018 midnight;
 
 **Please Note Q1, Q2, Q3, Q4 is done in programming language C AND Q5, Q6 is done in programming language Python**
 
-General: Please turn on the foreign key constraint in sqlite before executing/demo/testing these programs by typing in the terminal the following : 
+General: Please turn on the foreign key constraint in sqlite before executing/demo/testing these programs by typing in the terminal the following :
 “PRAGMA foreign_keys = ON;”
 
 
