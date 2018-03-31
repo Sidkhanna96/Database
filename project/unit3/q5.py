@@ -109,7 +109,7 @@ def MinMaxDist(id, x, y, minX, maxX, minY, maxY):
 	minmaxdist = min(valX, valY)
 	return id, minmaxdist
 
-def pruneDownBranchList(Node, x, y, Nearest, branchList):
+def pruneBranchList(Node, x, y, Nearest, branchList):
 	values = []
 	mindist = []
 	mmBranchList = []
@@ -134,7 +134,9 @@ def pruneDownBranchList(Node, x, y, Nearest, branchList):
 				if(Dist[1] > mmDist[1]):
 					branchList.remove(Dist)
 
-	return branchList, mmBranchList
+	return branchList
+
+
 
 
 def nearestNeighBours(Node, x, y, Nearest):
@@ -175,7 +177,7 @@ def nearestNeighBours(Node, x, y, Nearest):
 		branchList.sort(key=lambda dist:dist[1])
 
 		#Downward Pruning
-		last  = pruneDownBranchList(Node, x, y, Nearest, branchList)
+		last = pruneBranchList(Node, x, y, Nearest, branchList)
 
 		for i in range(0, len(last)):
 			newNode = last[i][0]
