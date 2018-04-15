@@ -1,0 +1,12 @@
+PREFIX dbr: <http://dbpedia.org/resource/>
+PREFIX dbp: <http://dbpedia.org/property/>
+SELECT ?Work
+WHERE{
+  {
+    dbr:Sanna_Nielsen dbp:occupation ?Work
+  }
+  UNION
+  {
+  dbr:Sanna_Nielsen dbp:title ?Work
+  }
+}

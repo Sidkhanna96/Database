@@ -1,0 +1,10 @@
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dbc: <http://dbpedia.org/resource/Category:>
+PREFIX dct: <http://purl.org/dc/terms/>
+SELECT DISTINCT ?Name
+WHERE {
+  ?EuroYear skos:broader dbc:Eurovision_Song_Contest_entrants_by_year.
+  ?Name dct:subject ?EuroYear
+}
+GROUP BY ?Name
+HAVING (COUNT(?Name)>=2)

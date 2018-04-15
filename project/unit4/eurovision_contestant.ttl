@@ -1,0 +1,46 @@
+@prefix dbr: <http://dbpedia.org/resource/>.
+@prefix dbo: <http://dbpedia.org/ontology/>.
+@prefix dbp: <http://dbpedia.org/property/>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix rel: <http://www.perceive.net/schemas/relationship/>.
+@prefix yago: <http://dbpedia.org/class/yago/>.
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix dbc: <http://dbpedia.org/resource/Category:> .
+@prefix schema:	<http://schema.org/> .
+
+dbr:Sanna_Nielsen
+	dbo:activeYearsStartYear "1996-01-01"^^xsd:date;
+	dbo:associatedBand dbr:Fredrik_Kempe, dbr:Sonja_Aldén, dbr:Shirley_Clamp, dbr:Mats_Elmes;
+	dbo:background "solo_singer";
+	dbo:birthDate "1984-11-27"^^xsd:date;
+	dbo:birthPlace dbr:Scania, dbr:Sweden, dbr:Edenryd;
+	dbo:recordLabel	dbr:Warner_Music, dbr:Parlophone;
+	dbp:after "Hera Björk";
+	dbp:before "Måns Zelmerlöw";
+	dbp:occupation "Singer", "television presenter";
+	dbp:title "OGAE Second Chance Contest winner", "Melodifestivalen winner";
+	dbp:years "2008"^^xsd:integer, "2014"^^xsd:integer;
+	dct:description "Swedish female singer"@en;
+	dct:subject	dbc:Schlager_musicians, dbc:Swedish_people_of_Danish_descent, dbc:Melodifestivalen_presenters, dbc:Swedish_television_hosts, 
+		dbc:Melodifestivalen_contestants, dbc:Melodifestivalen_winners, dbc:Swedish_Eurovision_Song_Contest_entrants, dbc:Swedish_pop_singers,
+		dbc:People_from_Bromölla_Municipality, dbc:Eurovision_Song_Contest_entrants_of_2014, dbc:Dansband_singers;
+	rdf:type foaf:Person, dbo:Artist, dbo:MusicalArtist, schema:MusicGroup, yago:Entertainer109616922, yago:Musician110339966, yago:Performer110415638;
+	rdfs:label "Sanna Nielsen"@en;
+	foaf:gender "female"@en;
+	foaf:givenName "Sanna"@en, "Sanna Viktoria Nielsen"@en;
+	foaf:name "Sanna Nielsen"@en;
+	foaf:surname "Nielsen"@en.
+
+dbr:Sanna_Nielsen
+	dbo:vote "218"^^xsd:integer;
+	dbo:placement "3rd".
+
+_:Sanna
+	foaf:knows _:Actors.
+
+
+dbr:Sanna_Nielsen
+	dbo:abstract "Sanna Viktoria Nielsen (born 27 November 1984) is a Swedish singer and television presenter. After her seventh attempt, she won Melodifestivalen in 2014 with the song Undo and so represented Sweden in the Eurovision Song Contest 2014 in Copenhagen, Denmark, finishing in 3rd place overall. Sanna was one of the Eurovision Song Contest 2015 commentators for Sweden and hosted Melodifestivalen 2015 along with comedian Robin Paulsson. She was announced as the new presenter for the sing-along show Allsång på Skansen for the summer of 2016. She will host Eurovision The Party at the Tele2 Arena for the Eurovision Song Contest 2016."@en.
