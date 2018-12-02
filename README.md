@@ -1,1 +1,1 @@
-#Use of this code is not permitted.
+#Implemented Triggers and Parsed through files.
